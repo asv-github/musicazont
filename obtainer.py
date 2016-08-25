@@ -4,7 +4,7 @@ obtainer.py
 Methods for obtaining a video from a query, be it by downloading with youtube-dl or just using the cache
 """
 from subprocess import call, check_output
-import os.path, glob
+import os, os.path, glob
 
 def filename_with_correct_extension(filename):
 	"""
@@ -12,12 +12,14 @@ def filename_with_correct_extension(filename):
 	For instance, an ogg and an mp4 may get merged into an mkv.
 	This method checks whether this happened and returns the actual filename. Returns None if file doesn't exist.
 	"""
+	os.chdir("/tmp")
 	basename, ext = os.path.splitext(filename)
 	if os.path.isfile(filename): return filename
 	elif os.path.isfile(basename + ".mkv"): return basename + ".mkv" # To simplify, we tell youtube-dl that if it merges formats it should merge to an mkv
 	else: return None
 
 def obtain(query):
+	os.chdir("/tmp")
 	filename = check_output(["youtube-dl","--get-filename","--restrict-filenames","--",query],universal_newlines=True).strip()
 	print("Filename would be \"{}\"".format(filename))
 	# Sometimes the actual downloaded file will have a different extension -- e.g, ogg and mp4 get merged into an mkv.
