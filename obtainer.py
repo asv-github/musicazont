@@ -20,7 +20,7 @@ def filename_with_correct_extension(filename):
 
 def obtain(query):
 	os.chdir("/tmp")
-	filename = check_output(["youtube-dl","--get-filename","--restrict-filenames","--",query],universal_newlines=True).strip()
+	filename = check_output(["youtube-dl","--no-playlist","--get-filename","--restrict-filenames","--",query],universal_newlines=True).strip()
 	print("Filename would be \"{}\"".format(filename))
 	# Sometimes the actual downloaded file will have a different extension -- e.g, ogg and mp4 get merged into an mkv.
 	# We must be careful to handle this case.
@@ -32,7 +32,7 @@ def obtain(query):
 		return os.path.abspath(filename_with_correct_extension(basename + ".mkv"))
 	else:
 		print("Cache miss, downloading now")
-		call(["youtube-dl","--restrict-filenames","--merge-output-format","mkv","--",query])
+		call(["youtube-dl","--no-playlist","--restrict-filenames","--merge-output-format","mkv","--",query])
 		return os.path.abspath(filename_with_correct_extension(filename))
 	# There is a race condition here: the downloaded file could have a different filename if a video gets uploaded or taken down between the first and second invocations, changing the search results.
 	# If this ever causes a problem in practice I'll give you a dollar.

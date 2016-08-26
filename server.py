@@ -7,7 +7,7 @@ from subprocess import call
 def enqueue(query):
 	# For now, there is no queue. Just play!
 	filename = obtain(query)
-	call(["mplayer","--",filename])
+	call(["mplayer","-fs","--",filename])
 
 class MusicazontRequestHandler(http.server.BaseHTTPRequestHandler):
 	def reply(self,string):
