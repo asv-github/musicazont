@@ -29,7 +29,7 @@ def obtain(query):
 	# Is it in the cache?
 	if os.path.isfile(filename) or os.path.isfile(basename + ".mkv"):
 		print("Cache hit! \(^_^)/")
-		return os.path.abspath(filename_with_correct_extension(basename + ".mkv"))
+		return os.path.abspath(filename_with_correct_extension(filename))
 	else:
 		print("Cache miss, downloading now")
 		call(["youtube-dl","--no-playlist","--restrict-filenames","--merge-output-format","mkv","--",query])
